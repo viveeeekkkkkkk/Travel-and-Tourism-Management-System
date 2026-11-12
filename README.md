@@ -1,63 +1,105 @@
-# Travel and Tourism Management System
+Travel and Tourism Management System
 
-A full-stack web application built with **Java Servlets, JSP, JDBC, and MySQL 8.0** that streamlines tour package management, stop-wise hotel assignments, and customer trip bookings through role-based **Admin** and **Client** portals.
+A web-based application built using Java Servlets, JSP, JDBC, and MySQL 8.0 to simplify how travel agencies manage tour packages and how customers plan and book their trips.
 
+Instead of handling tour schedules, hotel assignments, and customer bookings manually, this system brings everything into one place with separate, easy-to-use dashboards for Administrators and Clients.
 
+Key Features
 
-## Features
+For Administrators
 
-### Admin Module
-* **Tour Package Management (CRUD):** Add, view, update, and delete multi-stop tour packages with start dates and per-person pricing.
-* **Hotel Management (CRUD):** Register, edit, and remove hotels mapped to specific destinations.
-* **Stop-Wise Tour-Hotel Linking:** Assign hotels to up to three itinerary stops (`place_no` 1, 2, and 3) per tour, with automatic replacement when updating an existing stop link.
+Tour Management: Add new multi-stop tour packages, view existing tours, and update or delete schedules and pricing anytime.
 
-### Client Module
-* **Browse Tours & Linked Hotels:** View all available tour packages alongside their assigned stop-wise hotels.
-* **Automated Trip Booking & Fare Calculation:** Select tours, travel dates, number of persons, rooms, and AC/Non-AC preferences with automatic total cost computation:
-  $$\text{Total Price} = (\text{Base Price} \times \text{Persons}) + (\text{₹500} \times \text{Rooms, if AC})$$
-* **Booking History & Lookup:** View personal reservation history, search any reservation by its auto-generated Booking ID, and cancel bookings securely.
+Hotel Directory: Maintain a clean record of partner hotels along with their locations.
 
-### Authentication & Security
-* **Role-Based Access Control:** Separate dashboards and workflows for `ADMIN` and `CLIENT` accounts using `HttpSession`.
-* **SQL Injection Protection:** Parameterized JDBC queries (`PreparedStatement`) across all database operations.
+Stop-Wise Hotel Linking: Assign specific hotels to each stop (Stop 1, Stop 2, and Stop 3) of a tour itinerary, automatically replacing older assignments if updated.
 
+For Clients
 
+Explore Packages: Browse all available tours along with the exact hotels linked to every stop on the itinerary.
 
-## Tech Stack
+Easy Trip Booking: Select a tour, pick a travel date, choose the number of travelers and rooms, and pick between AC or Non-AC accommodation.
 
-* **Backend:** Java (JDK 17+), Jakarta/Javax Servlets, JSP, JDBC
-* **Frontend:** HTML5, CSS3 (`style.css`)
-* **Database:** MySQL 8.0 (`InnoDB`, Foreign Key constraints with `ON DELETE CASCADE` & `ON DELETE RESTRICT`)
-* **Server & IDE:** Apache Tomcat 9.0, Eclipse IDE for Enterprise Java
+Instant Fare Calculation: Automatically computes the total trip cost based on per-person tour pricing and AC room charges, generating a unique Booking ID upon confirmation.
 
+Manage Reservations: View personal booking history, look up any reservation by its Booking ID, or cancel a trip securely.
 
+Built With
 
-## Project Structure
+Backend: Java, Servlets, JSP, JDBC
 
-```text
+Frontend: HTML5, CSS3
+
+Database: MySQL 8.0
+
+Server & Tools: Apache Tomcat 9.0, Eclipse IDE
+
+Project Layout
+
 TravelTourism/
 ├── src/main/java/com/travel/
-│   ├── DBConnect.java          # Central MySQL JDBC connection utility
-│   ├── LoginServlet.java       # Role-based authentication & session creation
-│   ├── RegisterServlet.java    # Client account registration
-│   ├── LogoutServlet.java      # Session invalidation
-│   ├── TourServlet.java        # Admin CRUD operations for tours
-│   ├── HotelServlet.java       # Admin CRUD operations for hotels
-│   ├── TourHotelServlet.java   # Links/replaces hotels for tour stops (place_no 1..3)
-│   └── BookingServlet.java     # Client booking creation, lookup, and cancellation
+│   ├── DBConnect.java          # Manages MySQL database connections
+│   ├── LoginServlet.java       # Handles user login & role-based redirection
+│   ├── RegisterServlet.java    # Registers new client accounts
+│   ├── LogoutServlet.java      # Safely ends user sessions
+│   ├── TourServlet.java        # Adds, updates, and deletes tour packages
+│   ├── HotelServlet.java       # Adds, updates, and deletes hotel records
+│   ├── TourHotelServlet.java   # Links hotels to specific stops in a tour
+│   └── BookingServlet.java     # Processes bookings, fare calculation, lookup & cancellation
 └── src/main/webapp/
-    ├── WEB-INF/
-    │   ├── lib/mysql-connector-j-8.0.33.jar
-    │   └── web.xml
-    ├── index.jsp               # Public landing page
-    ├── login.jsp / register.jsp / logout.jsp
+    ├── index.jsp               # Home page
+    ├── login.jsp / register.jsp
     ├── admin_dashboard.jsp     # Admin control panel
     ├── tour.jsp / tourupd.jsp / tourdel.jsp
     ├── hotel.jsp / hotelupd.jsp / hoteldel.jsp
-    ├── tourhotel.jsp           # Tour-to-hotel linking interface
-    ├── client_dashboard.jsp    # Client control panel
-    ├── searchtour.jsp          # Available tours with linked hotels
-    ├── booking.jsp             # Tour reservation form
-    ├── booking_details.jsp     # User booking history & cancellation
-    ├── searchbooking.jsp       # Search booking by ID
-    └── style.css               # Application stylesheet
+    ├── tourhotel.jsp           # Tour-to-hotel mapping screen
+    ├── client_dashboard.jsp    # Client home screen
+    ├── searchtour.jsp          # Browse tours and linked hotels
+    ├── booking.jsp             # Trip booking form
+    ├── booking_details.jsp     # View and cancel personal bookings
+    ├── searchbooking.jsp       # Search reservation by Booking ID
+    └── style.css               # Shared styling across all pages
+
+
+Database Overview (travel_tourism)
+
+The application uses a relational MySQL database with 7 tables designed to keep data consistent and accurate:
+
+users — Stores login credentials, contact details, and user roles (ADMIN or CLIENT).
+
+tours — Holds tour package details, up to three destination stops, start dates, and per-person pricing.
+
+hotels — Stores hotel names and their respective cities/locations.
+
+tour_hotel_link — Connects tours to hotels for each itinerary stop (place_no 1, 2, or 3).
+
+bookings — Records customer reservations, selected hotels, room preferences, traveler counts, and total fares.
+
+booking_members & booking_persons — Stores additional passenger details associated with bookings.
+
+How to Run Locally
+
+1. Set Up the Database
+
+Open MySQL Workbench (or MySQL Command Line) and create the database:
+
+CREATE DATABASE travel_tourism;
+USE travel_tourism;
+
+
+Import or run the SQL table creation script to set up the 7 tables, and add an ADMIN account in the users table.
+
+Open src/main/java/com/travel/DBConnect.java and update the database URL, username, and password to match your local MySQL setup.
+
+2. Run on Apache Tomcat
+
+Clone this repository:
+
+git clone https://github.com/viveeeekkkkkkk/Travel-and-Tourism-Management-System.git
+
+
+Open Eclipse IDE, select File → Import → Existing Projects into Workspace, and choose the TravelTourism folder.
+
+Right-click the project, select Run As → Run on Server, and choose Apache Tomcat v9.0.
+
+Visit http://localhost:8080/TravelTourism/ in your browser.
