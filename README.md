@@ -56,8 +56,11 @@ TravelTourism/
     ├── booking_details.jsp     # View and cancel personal bookings
     ├── searchbooking.jsp       # Search reservation by Booking ID
     └── style.css               # Shared styling across all pages
+```
 
-# Database Overview (travel_tourism)
+---
+
+## Database Overview (`travel_tourism`)
 The application uses a relational MySQL database with 7 tables designed to keep data consistent and accurate:
 
 users — Stores login credentials, contact details, and user roles (ADMIN or CLIENT).
