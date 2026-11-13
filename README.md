@@ -87,3 +87,13 @@ Import or run the SQL table creation script to set up the 7 tables, and add an A
 Open src/main/java/com/travel/DBConnect.java and update the database URL, username, and password to match your local MySQL setup.
 
 
+2. Run on Apache Tomcat
+Clone this repository:
+
+Bash
+git clone [https://github.com/viveeeekkkkkkk/Travel-and-Tourism-Management-System.git](https://github.com/viveeeekkkkkkk/Travel-and-Tourism-Management-System.git)
+Open Eclipse IDE, select File → Import → Existing Projects into Workspace, and choose the TravelTourism folder.
+
+Right-click the project, select Run As → Run on Server, and choose Apache Tomcat v9.0.
+
+Visit http://localhost:8080/TravelTourism/ in your browser.
